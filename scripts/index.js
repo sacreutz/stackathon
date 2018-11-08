@@ -30,7 +30,7 @@ function draw() {
   window.requestAnimationFrame(draw);
   analyser.getByteFrequencyData(dataArray);
   console.log(dataArray)
-  canvasCtx.fillStyle = 'rgb(0, 0, 0)';
+  canvasCtx.fillStyle = 'pink';
   canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
   let barWidth = (WIDTH / bufferLength) * 2.5;
@@ -39,7 +39,7 @@ function draw() {
 
   for (var i = 0; i < bufferLength; i++) {
     barHeight = dataArray[i];
-    canvasCtx.fillStyle = 'blue'
+    canvasCtx.fillStyle = 'green'
     canvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight);
     x += barWidth + 1;
   }
