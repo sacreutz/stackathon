@@ -1,7 +1,8 @@
 //SIGNAL CHAIN: 12 OSC -> 12 GAIN NODES -> FILTER -> ANALYSER -> DESTINATION
 // creates audio context, within which all audio is defined and configured
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
+var audio = document.getElementById('drum1')
+var audioSrc = audioCtx.createMediaElementSource(audio)
 
 
 
@@ -19,23 +20,27 @@ let waveAnalyser = audioCtx.createAnalyser();
 
 analyser.fftSize = 256;
 
+var bufferLength = analyser.frequencyBinCount; // equal to half of fftSize
+let counter = 0;
 function draw() {
-  var bufferLength = analyser.frequencyBinCount; // equal to half of fftSize
+  counter++
+  console.log(counter, 'in draw')
   var dataArray = new Uint8Array(bufferLength); // creates an array of unsigned 8 bit integers, with a length of 1024
   canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-  drawVisual = window.requestAnimationFrame(draw);
+  window.requestAnimationFrame(draw);
   analyser.getByteFrequencyData(dataArray);
+  console.log(dataArray)
   canvasCtx.fillStyle = 'rgb(0, 0, 0)';
   canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
-  var barWidth = (WIDTH / bufferLength) * 2.5;
-    var barHeight;
-    var x = 0;
+  let barWidth = (WIDTH / bufferLength) * 2.5;
+    let barHeight;
+    let x = 0;
 
   for (var i = 0; i < bufferLength; i++) {
     barHeight = dataArray[i];
-    canvasCtx.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
-    canvasCtx.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight);
+    canvasCtx.fillStyle = 'blue'
+    canvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight);
     x += barWidth + 1;
   }
 }
@@ -53,7 +58,7 @@ drumGain.gain.value = 3;
 
 function getData(sound) {
   source = audioCtx.createBufferSource();
-
+  source.connect(analyser)
   var request = new XMLHttpRequest();
   request.open('GET', `./samples/${sound}.wav`, true);
   request.responseType = 'arraybuffer';
