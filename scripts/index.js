@@ -183,6 +183,7 @@ function getData2(sound) {
   source2 = audioCtx.createBufferSource();
 
   source2.connect(waveAnalyser)
+  oscillatorGainNode.connect(waveAnalyser)
   var request = new XMLHttpRequest();
   request.open('GET', `./samples/${sound}.wav`, true);
   request.responseType = 'arraybuffer';
