@@ -30,9 +30,8 @@ function keySelector(keyName){
 
 function keyReleaser(keyName) {
   switch (keyName) {
-    case 'a' :
-                oscillatorGainNode.gain.value = 0
-                break;
+    case 'a': oscillatorGainNode.gain.value = 0
+              break;
     default: console.log(keyName)
   }
 }
@@ -67,7 +66,7 @@ function draw() {
   analyser.getByteFrequencyData(dataArray);
   //console.log(dataArray)
   canvasCtx.fillStyle = 'blue';
-  canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+  //canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
   let barWidth = (WIDTH / bufferLength) * 2.5;
     let barHeight;

@@ -1,0 +1,15 @@
+.dot1 {
+  height: 100px;
+    width: 100px;
+    background-color:blue;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot2 {
+  height: 100px;
+    width: 100px;
+    background-color:purple;
+    border-radius: 50%;
+    float: right;
+}
