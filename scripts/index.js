@@ -7,11 +7,16 @@ var audioSrc = audioCtx.createMediaElementSource(audio)
 
 
 // AUDIO ANALYSER
-var canvas = document.getElementById('myCanvas');
+var canvas = document.getElementById('layer1');
 var canvasCtx = canvas.getContext("2d")
-var WIDTH = canvas.width;
-var HEIGHT = canvas.height;
-
+var canvas2 = document.getElementById('layer2')
+var canvasCtx2 = canvas2.getContext("2d")
+// var WIDTH = canvas.width;
+// var HEIGHT = canvas.height;
+// var WIDTH2 = canvas2.width;
+// var HEIGHT2 = canvas2.height;
+var WIDTH = 1200
+var HEIGHT = 600
 
 let analyser = audioCtx.createAnalyser();
 analyser.smoothingTimeConstant = 0.9
@@ -30,7 +35,7 @@ function draw() {
   window.requestAnimationFrame(draw);
   analyser.getByteFrequencyData(dataArray);
   console.log(dataArray)
-  canvasCtx.fillStyle = 'pink';
+  canvasCtx.fillStyle = 'blue';
   canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
   let barWidth = (WIDTH / bufferLength) * 2.5;
@@ -49,16 +54,16 @@ waveAnalyser.fftSize = 2048;
 
 function draw2() {
   var dataArray2 = new Uint8Array(bufferLength);
-   canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-  var drawVisual = requestAnimationFrame(draw);
+   canvasCtx2.clearRect(0, 0, WIDTH, HEIGHT);
+  var drawVisual = requestAnimationFrame(draw2);
   waveAnalyser.getByteTimeDomainData(dataArray2)
 
-  canvasCtx.fillStyle = 'rgb(200, 200, 200)';
-  canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+  //canvasCtx2.fillStyle = 'red';
+  //canvasCtx2.fillRect(0, 0, WIDTH, HEIGHT);
 
-  canvasCtx.lineWidth = 2;
-  canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
-  canvasCtx.beginPath();
+  canvasCtx2.lineWidth = 2;
+  canvasCtx2.strokeStyle = 'black';
+  canvasCtx2.beginPath();
 
   var sliceWidth = WIDTH * 1.0 / bufferLength;
   var x = 0;
@@ -66,19 +71,19 @@ function draw2() {
   for (var i = 0; i < bufferLength; i++) {
 
     var v = dataArray2[i] / 128.0;
-    var y = v * HEIGHT/2;
+    var y = v * HEIGHT / 2;
 
     if (i === 0) {
-      canvasCtx.moveTo(x, y);
+      canvasCtx2.moveTo(x, y);
     } else {
-      canvasCtx.lineTo(x, y);
+      canvasCtx2.lineTo(x, y);
     }
 
     x += sliceWidth;
   }
 
-  canvasCtx.lineTo(canvas.width, canvas.height/2);
-      canvasCtx.stroke();
+  canvasCtx2.lineTo(canvas2.width, canvas2.height / 2);
+      canvasCtx2.stroke();
 
 
 }
@@ -93,12 +98,14 @@ var source;
 var source2;
 var drumGain = audioCtx.createGain();
 drumGain.gain.value = 3;
+var drumGain2 = audioCtx.createGain();
+drumGain2.gain.value = 4;
 
 function getData(sound) {
   source = audioCtx.createBufferSource();
   source2 = audioCtx.createBufferSource();
   source.connect(analyser)
-  source2.connect(analyser)
+  source2.connect(waveAnalyser)
   var request = new XMLHttpRequest();
   request.open('GET', `./samples/${sound}.wav`, true);
   request.responseType = 'arraybuffer';
@@ -116,7 +123,7 @@ function getData(sound) {
 }
 
 function getData2(sound) {
-
+  source = audioCtx.createBufferSource();
   source2 = audioCtx.createBufferSource();
 
   source2.connect(waveAnalyser)
@@ -124,12 +131,12 @@ function getData2(sound) {
   request.open('GET', `./samples/${sound}.wav`, true);
   request.responseType = 'arraybuffer';
   request.onload = function() {
-    var audioData = request.response;
-    audioCtx.decodeAudioData(audioData, function(buffer) {
+    var audioData2 = request.response;
+    audioCtx.decodeAudioData(audioData2, function(buffer) {
       source2.buffer = buffer;
       source2.connect(drumGain)
       drumGain.connect(audioCtx.destination);
-      source2.loop = true;
+      source2.loop = false;
       },
       function(e){console.log('Error with decoding audio data' + e.err)});
   }
@@ -140,13 +147,14 @@ var play = document.getElementById('play')
   play.onclick = function() {
   getData('drum1');
   source.start(0);
-  draw2()
+  draw()
   //play.setAttribute('disabled', 'disabled');
 }
 
-var play2 = document.getElementById('play2')
+var play2 = document.getElementById('crash')
   play2.onclick = function () {
     getData2('crash');
+    //source.stop(0);
     source2.start(0);
     draw2()
   }
@@ -154,9 +162,11 @@ var play2 = document.getElementById('play2')
 var stop = document.getElementById('stop')
   stop.onclick = function(){
     source.stop(0);
+   // source2.stop(0);
   }
 
-  var stop2 = document.getElementById('stop2')
-  stop2.onclick = function(){
-    source2.stop(0);
-  }
+  // var stop2 = document.getElementById('stop2')
+  // stop2.onclick = function(){
+  //   source2.stop(0);
+  //  // source.stop(0);
+  // }

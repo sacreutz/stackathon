@@ -13,13 +13,13 @@
 
   <button type="button" name="button" id='play'>Play</button>
   <button type="button" name="button" id='stop'>Stop</button>
-  <button type="button" name="button" id='play2'>Play</button>
-  <button type="button" name="button" id='stop2'>Stop</button>
+  <button type="button" name="button" id='crash'>Crash!</button>
+  <!-- <button type="button" name="button" id='stop2'>Stop</button> -->
 
-  <div class="redbar">
-    <canvas id="myCanvas" width="1200" height="600" style="border:1px solid #000000;"></canvas>
+  <div id="canvasesdiv" style="position:relative; width: 1200px; height: 600px">
+    <canvas id="layer1" style="z-index: 1; position: absolute; left: 0px; top: 0px" width="1200" height="600"></canvas>
 
-   <!-- <canvas id="myCanvas2" width="600" height="200" style="border:1px solid #000000;"></canvas> -->
+   <canvas id="layer2" style="z-index:2; position:absolute; left:0px; top:0px" width="1200" height="600"></canvas>
   </div>
 
     <script type="text/javascript" src="./scripts/bufferLoader.js"></script>
@@ -29,86 +29,5 @@
 </html>
 
 
-<!-- <html>
-<head>
-    <title>Animated Gradient with Sound Track</title>
-
-    <meta name="viewport" content="width=400" />
-    <style>
-        canvas {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            border-radius: 25px;
-            border: 1px solid #404040;
-        }
-        audio {
-            position: absolute;
-            top: 195px;
-            left: 60px;
-        }
-    </style>
-    <script type="text/javascript">
-        var can, ctx, audio,
-        var timer, angle = 0;
-
-        function init() {
-            audio = document.getElementById("audio");
-            can = document.getElementById("can");
-            ctx = can.getContext("2d");
-            audio.addEventListener("playing", drawGradient, false);
-            audio.addEventListener("pause", stop, false);
-            audio.addEventListener("ended", stop, false);
-        }
-
-        function stop() {
-            clearTimeout(timer);
-        }
-
-        function drawGradient() {
-
-            angle += 0.1;
-            if (angle >= 6.2)
-                angle = 0;
-
-            var grad = ctx.createLinearGradient(0,can.height, 0,0);
-
-
-            grad.addColorStop(0, 'black');
-
-
-            var gAngle = angle + Math.PI / 2;
-            var bAngle = gAngle + Math.PI;
-            var r = parseInt(255 * Math.abs(Math.sin(angle)));
-            var g = parseInt(255 * Math.abs(Math.sin(gAngle)));
-            var b = parseInt(255 * Math.abs(Math.sin(bAngle)));
-            var rgbCol = "rgb(" + r + "," + g + "," + b + ")";
-
-
-            grad.addColorStop(1, rgbCol);
-
-
-            ctx.save();
-            ctx.fillStyle = grad;
-            ctx.fillRect(0,0, can.width, can.height);
-            ctx.restore();
-
-            if (!document.querySelector("audio").paused)
-                timer = setTimeout(drawGradient, 100);
-        }
-    </script>
-</head>
-<body onload="init()">
-    <canvas id="can" height="200" width="300">
-    </canvas>
-    <audio id="audio" src="./samples/drum1.wav" controls>
-    </audio>
-</body>
-</html> -->
-
-
-<!-- <html>
-<head>
-    <title>Happy Holidays</title>
 
 
