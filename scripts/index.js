@@ -7,6 +7,35 @@ let oscillator = audioCtx.createOscillator()
 let oscillatorGainNode = audioCtx.createGain()
 oscillator.connect(oscillatorGainNode)
 oscillatorGainNode.connect(audioCtx.destination)
+oscillatorGainNode.gain.value = 0
+oscillator.frequency.value = 200
+
+document.addEventListener('keydown', (event) => {
+  keySelector(event.key);
+})
+
+document.addEventListener('keyup', (event) => {
+  keyReleaser(event.key);
+})
+
+function keySelector(keyName){
+  switch (keyName) {
+    case 'n': oscillator.start()
+              break;
+    case 'a': oscillatorGainNode.gain.value = 0.8
+              break;
+    default: console.log(keyName)
+  }
+}
+
+function keyReleaser(keyName) {
+  switch (keyName) {
+    case 'a' :
+                oscillatorGainNode.gain.value = 0
+                break;
+    default: console.log(keyName)
+  }
+}
 
 // AUDIO ANALYSER
 var canvas = document.getElementById('layer1');
