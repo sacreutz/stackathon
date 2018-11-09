@@ -38,8 +38,8 @@ document.addEventListener('keyup', (event) => {
 })
 
 let blueButton = document.getElementById('D')
-let greenButton = document.getElementById('F')
-let purpleButton = document.getElementById('third')
+let purpleButton = document.getElementById('F')
+let greenButton = document.getElementById('third')
 
 function keyPressDefiner(color, note, gain) {
   if (color === 'blue'){
@@ -114,7 +114,7 @@ var canvasCtx2 = canvas2.getContext("2d")
 // var HEIGHT = canvas.height;
 // var WIDTH2 = canvas2.width;
 // var HEIGHT2 = canvas2.height;
-var WIDTH = 1200
+var WIDTH = 1300
 var HEIGHT = 600
 
 let analyser = audioCtx.createAnalyser();
@@ -142,7 +142,7 @@ function draw() {
     let x = 0;
 
   for (var i = 0; i < bufferLength; i++) {
-    barHeight = dataArray[i] * 3;
+    barHeight = dataArray[i] * 4.5;
     canvasCtx.fillStyle = 'green'
     canvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight);
     x += barWidth + 1;

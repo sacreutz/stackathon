@@ -11,8 +11,10 @@
   height: 100px;
     width: 100px;
     background-color:purple;
+    position: relative;
+    left: 465px;
     border-radius: 50%;
-    float: right;
+    display: inline-block;
 
 }
 
@@ -21,7 +23,7 @@
   width: 100px;
   background-color: green;
   border-radius: 50%;
-  display: inline-block;
   position: relative;
-  left: 450px;
+
+  float: right;
 }
