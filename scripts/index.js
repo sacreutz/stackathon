@@ -166,8 +166,4 @@ var stop = document.getElementById('stop')
    // source2.stop(0);
   }
 
-  // var stop2 = document.getElementById('stop2')
-  // stop2.onclick = function(){
-  //   source2.stop(0);
-  //  // source.stop(0);
-  // }
+  
