@@ -69,6 +69,8 @@ function keySelector(keyName){
               break;
     case 'j': keyPressDefiner('green')
               break;
+    case 'd': playCrash()
+              break;
     default: console.log(keyName)
   }
 }
@@ -259,6 +261,11 @@ var play2 = document.getElementById('crash')
     draw2()
   }
 
+  function playCrash(){
+    getData2('crash')
+    source2.start(0)
+    draw2()
+  }
 var stop = document.getElementById('stop')
   stop.onclick = function(){
     source.stop(0);
