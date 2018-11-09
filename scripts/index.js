@@ -3,8 +3,10 @@
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 var audio = document.getElementById('drum1')
 var audioSource = audioCtx.createMediaElementSource(audio)
-
-
+let oscillator = audioCtx.createOscillator()
+let oscillatorGainNode = audioCtx.createGain()
+oscillator.connect(oscillatorGainNode)
+oscillatorGainNode.connect(audioCtx.destination)
 
 // AUDIO ANALYSER
 var canvas = document.getElementById('layer1');
@@ -166,4 +168,4 @@ var stop = document.getElementById('stop')
    // source2.stop(0);
   }
 
-  
+
