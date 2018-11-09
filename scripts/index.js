@@ -1,12 +1,24 @@
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 var audio = document.getElementById('drum1')
 var audioSource = audioCtx.createMediaElementSource(audio)
+
+//first oscillator
 let oscillator = audioCtx.createOscillator()
 let oscillatorGainNode = audioCtx.createGain()
 oscillator.connect(oscillatorGainNode)
 oscillatorGainNode.connect(audioCtx.destination)
 oscillatorGainNode.gain.value = 0
 oscillator.frequency.value = 200
+
+//second oscillator
+let oscillator2 = audioCtx.createOscillator()
+let oscillator2GainNode = audioCtx.createGain()
+oscillator2.connect(oscillator2GainNode)
+oscillator2GainNode.connect(audioCtx.destination)
+oscillator2GainNode.gain.value = 0
+oscillator2.frequency.value = 400
+
+//event listeners
 
 document.addEventListener('keydown', (event) => {
   keySelector(event.key);
@@ -22,20 +34,24 @@ let purpleButton = document.getElementById('D')
 function keyPressDefiner(color, note, gain) {
   if (color === 'blue'){
     blueButton.style.backgroundColor = 'black'
+    oscillatorGainNode.gain.value = 0.8
   }
   else {
     purpleButton.style.backgroundColor = 'black'
+    oscillator2GainNode.gain.value = 0.8
   }
 
-  oscillatorGainNode.gain.value = 0.8
 }
 function keySelector(keyName){
   switch (keyName) {
     case 'n': oscillator.start()
+              oscillator2.start()
               break;
     // case 'a': oscillatorGainNode.gain.value = 0.8
     //           break;
     case 'a': keyPressDefiner('blue')
+              break;
+    case 'j': keyPressDefiner('purple')
               break;
     default: console.log(keyName)
   }
@@ -44,12 +60,14 @@ function keySelector(keyName){
 function keyUpDefiner(color) {
     if (color === 'blue'){
       blueButton.style.backgroundColor = 'blue'
+      oscillatorGainNode.gain.value = 0;
+
     }
 
     else {
       purpleButton.style.backgroundColor = 'purple'
+      oscillator2GainNode.gain.value = 0;
     }
-    oscillatorGainNode.gain.value = 0;
 }
 
 function keyReleaser(keyName) {
@@ -57,7 +75,9 @@ function keyReleaser(keyName) {
     // case 'a': oscillatorGainNode.gain.value = 0
     //           break;
       case 'a': keyUpDefiner('blue')
-                break
+                break;
+      case 'j': keyUpDefiner('purple')
+                break;
     default: console.log(keyName)
   }
 }
@@ -184,6 +204,7 @@ function getData2(sound) {
 
   source2.connect(waveAnalyser)
   oscillatorGainNode.connect(waveAnalyser)
+  oscillator2GainNode.connect(waveAnalyser)
   var request = new XMLHttpRequest();
   request.open('GET', `./samples/${sound}.wav`, true);
   request.responseType = 'arraybuffer';
