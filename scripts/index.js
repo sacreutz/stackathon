@@ -1,5 +1,3 @@
-//SIGNAL CHAIN: 12 OSC -> 12 GAIN NODES -> FILTER -> ANALYSER -> DESTINATION
-// creates audio context, within which all audio is defined and configured
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 var audio = document.getElementById('drum1')
 var audioSource = audioCtx.createMediaElementSource(audio)
@@ -18,20 +16,48 @@ document.addEventListener('keyup', (event) => {
   keyReleaser(event.key);
 })
 
+let blueButton = document.getElementById('F')
+let purpleButton = document.getElementById('D')
+
+function keyPressDefiner(color, note, gain) {
+  if (color === 'blue'){
+    blueButton.style.backgroundColor = 'black'
+  }
+  else {
+    purpleButton.style.backgroundColor = 'black'
+  }
+
+  oscillatorGainNode.gain.value = 0.8
+}
 function keySelector(keyName){
   switch (keyName) {
     case 'n': oscillator.start()
               break;
-    case 'a': oscillatorGainNode.gain.value = 0.8
+    // case 'a': oscillatorGainNode.gain.value = 0.8
+    //           break;
+    case 'a': keyPressDefiner('blue')
               break;
     default: console.log(keyName)
   }
 }
 
+function keyUpDefiner(color) {
+    if (color === 'blue'){
+      blueButton.style.backgroundColor = 'blue'
+    }
+
+    else {
+      purpleButton.style.backgroundColor = 'purple'
+    }
+    oscillatorGainNode.gain.value = 0;
+}
+
 function keyReleaser(keyName) {
   switch (keyName) {
-    case 'a': oscillatorGainNode.gain.value = 0
-              break;
+    // case 'a': oscillatorGainNode.gain.value = 0
+    //           break;
+      case 'a': keyUpDefiner('blue')
+                break
     default: console.log(keyName)
   }
 }
@@ -56,15 +82,15 @@ let waveAnalyser = audioCtx.createAnalyser();
 analyser.fftSize = 2048;
 
 var bufferLength = analyser.frequencyBinCount; // equal to half of fftSize
-let counter = 0;
+
 function draw() {
-  counter++
-  //console.log(counter, 'in draw')
+
+
   var dataArray = new Uint8Array(bufferLength); // creates an array of unsigned 8 bit integers, with a length of 1024
   canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
   window.requestAnimationFrame(draw);
   analyser.getByteFrequencyData(dataArray);
-  //console.log(dataArray)
+
   canvasCtx.fillStyle = 'blue';
   //canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
