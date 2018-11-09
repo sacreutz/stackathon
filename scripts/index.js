@@ -8,7 +8,7 @@ let oscillatorGainNode = audioCtx.createGain()
 oscillator.connect(oscillatorGainNode)
 oscillatorGainNode.connect(audioCtx.destination)
 oscillatorGainNode.gain.value = 0
-oscillator.frequency.value = 200
+oscillator.frequency.value = 293.66
 
 //second oscillator
 let oscillator2 = audioCtx.createOscillator()
@@ -16,7 +16,7 @@ let oscillator2GainNode = audioCtx.createGain()
 oscillator2.connect(oscillator2GainNode)
 oscillator2GainNode.connect(audioCtx.destination)
 oscillator2GainNode.gain.value = 0
-oscillator2.frequency.value = 400
+oscillator2.frequency.value = 349.23
 
 //event listeners
 
