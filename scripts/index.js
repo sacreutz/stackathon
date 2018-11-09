@@ -69,7 +69,7 @@ function keySelector(keyName){
               break;
     case 'j': keyPressDefiner('green')
               break;
-    case 'd': playCrash()
+    case ' ': playCrash()
               break;
     default: console.log(keyName)
   }
