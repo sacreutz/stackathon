@@ -37,9 +37,9 @@ document.addEventListener('keyup', (event) => {
   keyReleaser(event.key);
 })
 
-let blueButton = document.getElementById('F')
-let purpleButton = document.getElementById('D')
-let greenButton = document.getElementById('third')
+let blueButton = document.getElementById('D')
+let greenButton = document.getElementById('F')
+let purpleButton = document.getElementById('third')
 
 function keyPressDefiner(color, note, gain) {
   if (color === 'blue'){
@@ -65,9 +65,9 @@ function keySelector(keyName){
     //           break;
     case 'a': keyPressDefiner('blue')
               break;
-    case 'j': keyPressDefiner('purple')
+    case 'f': keyPressDefiner('purple')
               break;
-    case 'f': keyPressDefiner('green')
+    case 'j': keyPressDefiner('green')
               break;
     default: console.log(keyName)
   }
@@ -95,9 +95,9 @@ function keyReleaser(keyName) {
     //           break;
       case 'a': keyUpDefiner('blue')
                 break;
-      case 'j': keyUpDefiner('purple')
+      case 'f': keyUpDefiner('purple')
                 break;
-      case 'f': keyUpDefiner('green')
+      case 'j': keyUpDefiner('green')
                 break;
     default: console.log(keyName)
   }
