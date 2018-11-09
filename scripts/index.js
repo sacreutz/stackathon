@@ -2,7 +2,7 @@
 // creates audio context, within which all audio is defined and configured
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 var audio = document.getElementById('drum1')
-var audioSrc = audioCtx.createMediaElementSource(audio)
+var audioSource = audioCtx.createMediaElementSource(audio)
 
 
 
@@ -29,12 +29,12 @@ var bufferLength = analyser.frequencyBinCount; // equal to half of fftSize
 let counter = 0;
 function draw() {
   counter++
-  console.log(counter, 'in draw')
+  //console.log(counter, 'in draw')
   var dataArray = new Uint8Array(bufferLength); // creates an array of unsigned 8 bit integers, with a length of 1024
   canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
   window.requestAnimationFrame(draw);
   analyser.getByteFrequencyData(dataArray);
-  console.log(dataArray)
+  //console.log(dataArray)
   canvasCtx.fillStyle = 'blue';
   canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -103,9 +103,10 @@ drumGain2.gain.value = 4;
 
 function getData(sound) {
   source = audioCtx.createBufferSource();
-  source2 = audioCtx.createBufferSource();
+ // source2 = audioCtx.createBufferSource();
   source.connect(analyser)
-  source2.connect(waveAnalyser)
+  //audioSource.connect(analyser)
+ // source2.connect(waveAnalyser)
   var request = new XMLHttpRequest();
   request.open('GET', `./samples/${sound}.wav`, true);
   request.responseType = 'arraybuffer';
@@ -121,9 +122,8 @@ function getData(sound) {
   }
   request.send();
 }
-
 function getData2(sound) {
-  source = audioCtx.createBufferSource();
+  //source = audioCtx.createBufferSource();
   source2 = audioCtx.createBufferSource();
 
   source2.connect(waveAnalyser)
@@ -134,8 +134,8 @@ function getData2(sound) {
     var audioData2 = request.response;
     audioCtx.decodeAudioData(audioData2, function(buffer) {
       source2.buffer = buffer;
-      source2.connect(drumGain)
-      drumGain.connect(audioCtx.destination);
+      source2.connect(drumGain2)
+      drumGain2.connect(audioCtx.destination);
       source2.loop = false;
       },
       function(e){console.log('Error with decoding audio data' + e.err)});
@@ -162,6 +162,7 @@ var play2 = document.getElementById('crash')
 var stop = document.getElementById('stop')
   stop.onclick = function(){
     source.stop(0);
+    //source2.stop(0);
    // source2.stop(0);
   }
 
