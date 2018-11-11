@@ -110,6 +110,8 @@ var canvas = document.getElementById('layer1');
 var canvasCtx = canvas.getContext("2d")
 var canvas2 = document.getElementById('layer2')
 var canvasCtx2 = canvas2.getContext("2d")
+var canvas3 = document.getElementById('layer3')
+var canvasCtx3 = canvas3.getContext("2d")
 // var WIDTH = canvas.width;
 // var HEIGHT = canvas.height;
 // var WIDTH2 = canvas2.width;
@@ -186,8 +188,39 @@ function draw2() {
 
 
 }
-//draw()
-// waveform visualizer; x-axis is time, y-axis is amplitude
+
+function drawAverageCircle() {
+
+  var dataArray3 = new Uint8Array(bufferLength);
+
+    var drawVisual = requestAnimationFrame(drawAverageCircle);
+    waveAnalyser.getByteTimeDomainData(dataArray3)
+//      waveAnalyser.getByteFrequencyData(dataArray3)
+   var sliceWidth = WIDTH * 1.0 / bufferLength;
+ var x = 625;
+
+ var y = HEIGHT / 2;
+
+
+  var circ = Math.PI * 2;
+// // //  var quart = Math.PI / 2;
+
+   canvasCtx3.lineWidth = 10;
+   canvasCtx3.strokeStyle = '#ad2323';
+
+  canvasCtx3.clearRect(0, 0, WIDTH, HEIGHT);
+ canvasCtx3.beginPath();
+
+  for (var i = 0; i < bufferLength; i++) {
+  canvasCtx3.arc(x, y, dataArray3[i], 0, circ);
+// // //   //y += sliceWidth
+// // //   zero += dataArray3[i]
+ }
+
+
+ canvasCtx3.stroke();
+
+  }
 
 
 
@@ -266,10 +299,19 @@ var play2 = document.getElementById('crash')
     source2.start(0)
     draw2()
   }
+
+  var pulse = document.getElementById('pulse')
+    pulse.onclick = function(){
+    getData2('casio')
+    source2.start(0)
+    drawAverageCircle()
+   // draw2()
+  }
+
 var stop = document.getElementById('stop')
   stop.onclick = function(){
     source.stop(0);
-    //source2.stop(0);
+    source2.stop(0);
    // source2.stop(0);
   }
 
